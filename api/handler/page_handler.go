@@ -1,18 +1,20 @@
 package handler
 
 import (
-	"gogpt/ui/components"
-	"net/http"
+	"gogpt/api/handler/render"
+
+	"github.com/labstack/echo/v4"
 )
 
-type PageHandler struct {
+type StaticHandler struct {
 }
 
-func NewPageHandler() *PageHandler {
-	return &PageHandler{}
+func NewPageHandler() *StaticHandler {
+	return &StaticHandler{}
 }
 
-func (h *PageHandler) HandleViewHomePage(w http.ResponseWriter, r *http.Request) {
-	page := components.Home()
-	page.Render(r.Context(), w)
+func (h *StaticHandler) HandleViewPage(page render.Component) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		return render.Render(c, page)
+	}
 }
